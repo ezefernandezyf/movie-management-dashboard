@@ -1,0 +1,139 @@
+{
+  "movies": [
+    {
+      "id": 1,
+      "title": "The Shawshank Redemption",
+      "description": "Dos hombres encarcelados forjan una amistad a lo largo de décadas.",
+      "genre": "Drama",
+      "year": 1994,
+      "rating": 9.3,
+      "status": "active"
+    },
+    {
+      "id": 2,
+      "title": "The Godfather",
+      "description": "El patriarca de una dinastía criminal transfiere el control de su imperio.",
+      "genre": "Crime",
+      "year": 1972,
+      "rating": 9.2,
+      "status": "active"
+    },
+    {
+      "id": 3,
+      "title": "The Dark Knight",
+      "description": "Batman se enfrenta a su mayor enemigo, el Joker.",
+      "genre": "Action",
+      "year": 2008,
+      "rating": 9.0,
+      "status": "archived"
+    },
+    {
+      "id": 4,
+      "title": "Pulp Fiction",
+      "description": "Las vidas de varios criminales se entrelazan en Los Ángeles.",
+      "genre": "Crime",
+      "year": 1994,
+      "rating": 8.9,
+      "status": "active"
+    },
+    {
+      "id": 5,
+      "title": "Inception",
+      "description": "Un ladrón que roba secretos corporativos mediante el uso de tecnología de sueños.",
+      "genre": "Sci-Fi",
+      "year": 2010,
+      "rating": 8.8,
+      "status": "active"
+    },
+    {
+      "id": 6,
+      "title": "Fight Club",
+      "description": "Un oficinista insomne y un vendedor de jabón forman un club clandestino.",
+      "genre": "Drama",
+      "year": 1999,
+      "rating": 8.8,
+      "status": "archived"
+    },
+    {
+      "id": 7,
+      "title": "Forrest Gump",
+      "description": "La vida de un hombre sencillo que presencia eventos históricos clave.",
+      "genre": "Drama",
+      "year": 1994,
+      "rating": 8.8,
+      "status": "active"
+    },
+    {
+      "id": 8,
+      "title": "The Matrix",
+      "description": "Un hacker descubre que su realidad es una simulación controlada por máquinas.",
+      "genre": "Sci-Fi",
+      "year": 1999,
+      "rating": 8.7,
+      "status": "active"
+    },
+    {
+      "id": 9,
+      "title": "Star Wars: Episode IV",
+      "description": "Luke Skywalker se une a una rebelión para destruir una superarma.",
+      "genre": "Adventure",
+      "year": 1977,
+      "rating": 8.6,
+      "status": "archived"
+    },
+    {
+      "id": 10,
+      "title": "Parasite",
+      "description": "Una familia pobre se infiltra en la vida de una familia rica.",
+      "genre": "Thriller",
+      "year": 2019,
+      "rating": 8.5,
+      "status": "active"
+    },
+    {
+      "id": 11,
+      "title": "Interstellar",
+      "description": "Un equipo de exploradores viaja a través de un agujero de gusano en el espacio.",
+      "genre": "Sci-Fi",
+      "year": 2014,
+      "rating": 8.7,
+      "status": "active"
+    },
+    {
+      "id": 12,
+      "title": "Spirited Away",
+      "description": "Una niña queda atrapada en un mundo mágico de espíritus.",
+      "genre": "Animation",
+      "year": 2001,
+      "rating": 8.6,
+      "status": "archived"
+    },
+    {
+      "id": 13,
+      "title": "Gladiator",
+      "description": "Un general romano traicionado busca venganza contra el emperador corrupto.",
+      "genre": "Action",
+      "year": 2000,
+      "rating": 8.5,
+      "status": "active"
+    },
+    {
+      "id": 14,
+      "title": "The Lion King",
+      "description": "Un joven león debe asumir su papel como rey tras la muerte de su padre.",
+      "genre": "Animation",
+      "year": 1994,
+      "rating": 8.5,
+      "status": "archived"
+    },
+    {
+      "id": 15,
+      "title": "Back to the Future",
+      "description": "Un adolescente viaja accidentalmente al pasado en un DeLorean.",
+      "genre": "Sci-Fi",
+      "year": 1985,
+      "rating": 8.5,
+      "status": "active"
+    }
+  ]
+}
