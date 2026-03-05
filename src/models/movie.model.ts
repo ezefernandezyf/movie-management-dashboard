@@ -7,3 +7,6 @@ export interface Movie {
   rating?: number;
   status?: string;
 }
+
+export type CreateMovieDto = Omit<Movie, 'id'>;
+export type UpdateMovieDto = Partial<CreateMovieDto>;
