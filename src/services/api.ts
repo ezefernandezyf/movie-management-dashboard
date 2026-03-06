@@ -56,7 +56,7 @@ export const request = async <T = unknown>(config: AxiosRequestConfig): Promise<
     const res = await axiosInstance!.request<T>(config);
     return res.data as T;
   } catch (err) {
-    throw err;
+    throw err as ApiError;
   }
 };
 
