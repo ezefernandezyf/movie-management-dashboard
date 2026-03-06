@@ -23,7 +23,7 @@ describe('movie.service', () => {
     expect(mockedGet).toHaveBeenCalledTimes(1);
     expect(mockedGet).toHaveBeenCalledWith(
       API_ENDPOINTS.MOVIES,
-      expect.objectContaining({ params: { page: 1 }, signal: undefined }),
+      expect.objectContaining({ params: { _page: 1 }, signal: undefined }),
     );
     expect(res).toEqual(movies);
   });
