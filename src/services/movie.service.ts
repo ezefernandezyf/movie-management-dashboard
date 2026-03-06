@@ -1,8 +1,24 @@
 import { API_ENDPOINTS, get, post, put, del } from './';
-import type { Movie, CreateMovieDto, UpdateMovieDto } from '../models/';
+import type { Movie, CreateMovieDto, UpdateMovieDto, MovieQueryParams } from '../models/';
 
-export const getMovies = (params?: Record<string, unknown>, signal?: AbortSignal) =>
-  get<Movie[]>(API_ENDPOINTS.MOVIES, { params, signal });
+const mapToServerParams = (p?: MovieQueryParams): Record<string, unknown> | undefined => {
+  if (!p) return undefined;
+  const out: Record<string, unknown> = {};
+  if (p.page !== undefined) out._page = p.page;
+  if (p.limit !== undefined) out._limit = p.limit;
+  if (p.q) out.q = p.q;
+  if (p.genre) out.genre = p.genre;
+  if (p.year !== undefined) out.year = p.year;
+  if (p.status) out.status = p.status;
+  if (p.sortBy) {
+    out._sort = p.sortBy;
+    out._order = p.order ?? 'asc';
+  }
+  return out;
+};
+
+export const getMovies = (params?: MovieQueryParams, signal?: AbortSignal) =>
+  get<Movie[]>(API_ENDPOINTS.MOVIES, { params: mapToServerParams(params), signal });
 
 export const getMovieById = (id: number | string, signal?: AbortSignal) => {
   if (id == null) {
