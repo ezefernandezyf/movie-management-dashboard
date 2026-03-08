@@ -1,13 +1,17 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, type UseQueryOptions } from '@tanstack/react-query';
 import { getMovies } from '../services/movie.service';
+import type { Movie, MovieQueryParams } from '../models';
 import { movieKeys } from '../queries';
-import type { Movie } from '../models';
 
-export const useMovies = (params?: Record<string, unknown>, options?: any) =>
-  useQuery<Movie[], Error>({
-    queryKey: movieKeys.list(params),
+export const useMovies = (params?: MovieQueryParams, options?: UseQueryOptions<Movie[], Error>) => {
+  const queryKey = movieKeys.list(params);
+
+  const opts: UseQueryOptions<Movie[], Error> = {
+    queryKey,
     queryFn: ({ signal }) => getMovies(params, signal),
     staleTime: 30_000,
-    keepPreviousData: true,
     ...options,
-  });
+  };
+
+  return useQuery(opts);
+};
