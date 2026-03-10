@@ -8,7 +8,7 @@ interface Props {
 }
 
 
-export function MovieCard({ movie, onEdit, onDelete, isDeleting }: Props): React.JSX.Element {
+export const MovieCard = ({ movie, onEdit, onDelete, isDeleting }: Props): React.JSX.Element => {
     const handleEdit = (e: React.MouseEvent) => {
         e.stopPropagation();
         onEdit?.(movie);
