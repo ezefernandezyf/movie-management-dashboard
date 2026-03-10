@@ -1,11 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 
-export const Header = (): React.JSX.Element => {
+export function Header(): React.JSX.Element {
   const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState('');
   const drawerRef = useRef<HTMLDivElement | null>(null);
+  const navigate = useNavigate();
+
   const toggle = () => setOpen((v) => !v);
   const close = () => setOpen(false);
+  const onLinkClick = () => close();
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -14,6 +18,7 @@ export const Header = (): React.JSX.Element => {
     if (open) {
       document.body.style.overflow = 'hidden';
       window.addEventListener('keydown', onKey);
+      setTimeout(() => drawerRef.current?.focus(), 120);
     } else {
       document.body.style.overflow = '';
     }
@@ -21,12 +26,6 @@ export const Header = (): React.JSX.Element => {
       document.body.style.overflow = '';
       window.removeEventListener('keydown', onKey);
     };
-  }, [open]);
-
-  useEffect(() => {
-    if (open) {
-      setTimeout(() => drawerRef.current?.focus(), 150);
-    }
   }, [open]);
 
   useEffect(() => {
@@ -41,19 +40,27 @@ export const Header = (): React.JSX.Element => {
     return () => window.removeEventListener('mousedown', onDown);
   }, [open]);
 
-  const onLinkClick = () => {
+  const navLinkClass = ({ isActive }: { isActive: boolean }) =>
+    [
+      'px-3 py-2 text-sm transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-indigo-500',
+      isActive
+        ? 'text-indigo-300 border-b-2 border-indigo-500 pb-1 font-medium'
+        : 'text-gray-200 hover:text-indigo-200',
+    ].join(' ');
+
+  const handleSearchSubmit = (e?: React.SyntheticEvent<HTMLFormElement, SubmitEvent>) => {
+    e?.preventDefault();
+    const q = query.trim();
+    if (q) {
+      navigate(`/movies?q=${encodeURIComponent(q)}`);
+    } else {
+      navigate('/movies');
+    }
     close();
   };
 
-  const navLinkClass = ({ isActive }: { isActive: boolean }) =>
-    `px-3 py-2 rounded-md text-sm font-medium transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--ring))] ${
-      isActive
-        ? 'bg-[rgb(var(--primary))] text-white'
-        : 'text-[rgb(var(--text))] hover:bg-[rgba(var(--primary),0.06)]'
-    }`;
-
   return (
-    <header className="sticky top-0 z-40 bg-[rgb(var(--surface))] border-b border-[rgb(var(--border))]">
+    <header className="sticky top-0 z-40 bg-gray-950 border-b border-gray-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="h-16 flex items-center justify-between">
           <div className="flex items-center gap-4">
@@ -66,38 +73,55 @@ export const Header = (): React.JSX.Element => {
                 aria-hidden
                 className="shrink-0"
               >
-                <rect width="24" height="24" rx="6" fill="rgb(var(--primary))" />
+                <rect width="24" height="24" rx="6" fill="#4F46E5" />
                 <path d="M7 12h10" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
               </svg>
-              <span className="font-semibold text-lg" style={{ color: 'rgb(var(--text))' }}>
-                MovieDash
-              </span>
+              <span className="font-semibold text-lg text-gray-100">MovieDash</span>
             </Link>
           </div>
 
-          <nav className="hidden md:flex md:items-center md:gap-2" aria-label="Primary">
-            <NavLink to="/home" className={navLinkClass}>
-              Inicio
-            </NavLink>
-            <NavLink to="/catalog" className={navLinkClass}>
-              Catálogo
-            </NavLink>
-          </nav>
+          <div className="hidden md:flex md:items-center md:gap-6 ">
+            <nav className="flex items-center gap-1" aria-label="Primary">
+              <NavLink to="/home" className={navLinkClass}>
+                Inicio
+              </NavLink>
+              <NavLink to="/movies" className={navLinkClass}>
+                Catálogo
+              </NavLink>
+              <NavLink to="/nuevo" className={navLinkClass}>
+                Nuevo
+              </NavLink>
+            </nav>
 
-          <div className="flex items-center gap-2">
-            <Link
-              to="/nuevo"
-              className="hidden sm:inline-flex items-center px-3 py-2 rounded-md text-sm font-medium bg-[rgb(var(--primary))] text-white hover:brightness-95 transition"
-            >
-              Nuevo
-            </Link>
+            <form onSubmit={handleSearchSubmit} className="ml-6 flex items-center gap-2">
+              <label htmlFor="header-search" className="sr-only">
+                Buscar películas
+              </label>
+              <input
+                id="header-search"
+                type="search"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Buscar por título..."
+                className="w-80 px-3 py-2 rounded-md bg-gray-800 text-gray-100 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 outline-none border border-gray-700"
+              />
+              <button
+                type="submit"
+                className="px-3 py-2 rounded-md bg-indigo-600 text-white text-sm hover:bg-indigo-500 transition"
+                aria-label="Buscar"
+              >
+                Buscar
+              </button>
+            </form>
+          </div>
 
+          <div className="flex items-center gap-3">
             <button
               type="button"
               aria-controls="mobile-menu"
               aria-expanded={open}
               onClick={toggle}
-              className="inline-flex items-center justify-center p-2 rounded-md text-[rgb(var(--text))] hover:bg-[rgba(var(--primary),0.06)] md:hidden focus:outline-none focus:ring-2 focus:ring-[rgb(var(--ring))]"
+              className="inline-flex items-center justify-center p-2 rounded-md text-gray-200 hover:bg-gray-800 md:hidden focus:outline-none focus:ring-2 focus:ring-indigo-500"
             >
               <span className="sr-only">Abrir menú</span>
               {!open ? (
@@ -126,10 +150,8 @@ export const Header = (): React.JSX.Element => {
 
       <div
         aria-hidden={!open}
-        className={`fixed inset-0 bg-black/40 backdrop-blur-sm transition-opacity duration-200 ${
-          open ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-        }`}
-        onClick={close}
+        className={`fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-200 ${open ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+          }`}
       />
 
       <aside
@@ -138,22 +160,21 @@ export const Header = (): React.JSX.Element => {
         tabIndex={-1}
         role="dialog"
         aria-modal="true"
-        className={`fixed right-0 top-0 h-full w-[85vw] max-w-xs bg-[rgb(var(--surface))] shadow-lg border-l border-[rgb(var(--border))] transition-transform duration-200 focus:outline-none ${
-          open ? 'translate-x-0' : 'translate-x-full'
-        }`}
+        className={`fixed right-0 top-0 h-full w-[85vw] max-w-xs bg-gray-950 shadow-lg border-l border-gray-800 transition-transform duration-200 focus:outline-none ${open ? 'translate-x-0' : 'translate-x-full'
+          }`}
       >
         <div className="h-16 flex items-center justify-between px-4">
           <Link to="/" className="inline-flex items-center gap-2" onClick={onLinkClick}>
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
-              <rect width="24" height="24" rx="6" fill="rgb(var(--primary))" />
+              <rect width="24" height="24" rx="6" fill="#4F46E5" />
               <path d="M7 12h10" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
             </svg>
-            <span className="font-semibold">MovieDash</span>
+            <span className="font-semibold text-gray-100">MovieDash</span>
           </Link>
           <button
             aria-label="Cerrar menú"
             onClick={close}
-            className="p-2 rounded-md hover:bg-[rgba(var(--primary),0.06)] focus:outline-none focus:ring-2 focus:ring-[rgb(var(--ring))]"
+            className="p-2 rounded-md hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500"
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
               <path
@@ -166,22 +187,45 @@ export const Header = (): React.JSX.Element => {
           </button>
         </div>
 
-        <nav className="px-4 py-2 flex flex-col gap-1" aria-label="Mobile Primary">
-          <NavLink to="/Buscar" onClick={onLinkClick} className={navLinkClass}>
+        <nav className="px-4 py-3 flex flex-col gap-2" aria-label="Mobile Primary">
+          <NavLink to="/home" onClick={onLinkClick} className={navLinkClass}>
             Inicio
           </NavLink>
-          <NavLink to="/Catálogo" onClick={onLinkClick} className={navLinkClass}>
+          <NavLink to="/movies" onClick={onLinkClick} className={navLinkClass}>
             Catálogo
           </NavLink>
-          <Link
-            to="/nuevo"
-            onClick={onLinkClick}
-            className="px-3 py-2 rounded-md text-sm font-medium bg-[rgb(var(--primary))] text-white"
-          >
+          <NavLink to="/nuevo" onClick={onLinkClick} className={navLinkClass}>
             Nuevo
-          </Link>
+          </NavLink>
+
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSearchSubmit();
+            }}
+            className="mt-4 flex gap-2"
+          >
+            <label htmlFor="mobile-search" className="sr-only">
+              Buscar películas
+            </label>
+            <input
+              id="mobile-search"
+              type="search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Buscar por título..."
+              className="flex-1 px-3 py-2 rounded-md bg-gray-800 text-gray-100 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 outline-none border border-gray-700"
+            />
+            <button
+              type="button"
+              onClick={() => handleSearchSubmit()}
+              className="px-3 py-2 rounded-md bg-indigo-600 text-white"
+            >
+              Buscar
+            </button>
+          </form>
         </nav>
       </aside>
     </header>
   );
-};
+}

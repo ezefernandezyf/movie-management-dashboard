@@ -1,83 +1,51 @@
 import { Link } from 'react-router-dom';
 
-export const Footer = (): React.JSX.Element => {
+export function Footer(): React.JSX.Element {
   const year = new Date().getFullYear();
+  const repoUrl = 'https://github.com/ezefernandezyf/movie-management-dashboard';
 
   return (
-    <footer className="bg-[rgb(var(--surface))] border-t border-[rgb(var(--border))]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="py-6 md:py-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-          <div className="flex items-start md:items-center gap-3">
-            <Link to="/" aria-label="Ir al inicio" className="inline-flex items-center gap-2">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden>
-                <rect width="24" height="24" rx="6" fill="rgb(var(--primary))" />
-                <path d="M7 12h10" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
-              </svg>
-              <span className="font-semibold text-sm" style={{ color: 'rgb(var(--text))' }}>
-                MovieDash
-              </span>
-            </Link>
-
-            <div className="text-xs text-[rgb(var(--muted))]">
-              <div>© {year} MovieDash</div>
-              <div className="mt-0.5">Todos los derechos reservados</div>
-            </div>
+    <footer role="contentinfo" className="w-full bg-gray-950 border-t border-gray-800">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div className="flex flex-col md:flex-row items-center md:justify-between gap-3">
+          <div className="text-sm text-gray-400">
+            &copy; {year} MovieDash. Todos los derechos reservados.
           </div>
 
-          <nav aria-label="Footer" className="flex flex-wrap items-center gap-2">
-            <Link
-              to="/about"
-              className="text-sm text-[rgb(var(--muted))] hover:text-[rgb(var(--text))] px-2 py-1 rounded transition"
-            >
-              Acerca
-            </Link>
-            <Link
-              to="/catalogo"
-              className="text-sm text-[rgb(var(--muted))] hover:text-[rgb(var(--text))] px-2 py-1 rounded transition"
-            >
-              Catálogo
-            </Link>
-            <Link
-              to="/contacto"
-              className="text-sm text-[rgb(var(--muted))] hover:text-[rgb(var(--text))] px-2 py-1 rounded transition"
-            >
-              Contacto
-            </Link>
+          <nav aria-label="Footer links" className="flex items-center gap-4">
             <Link
               to="/privacy"
-              className="text-sm text-[rgb(var(--muted))] hover:text-[rgb(var(--text))] px-2 py-1 rounded transition"
+              className="text-sm text-gray-300 hover:text-indigo-300 transition-colors"
+              aria-label="Política de privacidad"
             >
-              Privacidad
+              Privacy
             </Link>
+
+            <a
+              href={repoUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-sm text-gray-300 hover:text-indigo-300 transition-colors"
+              aria-label="Ver código en GitHub (se abre en nueva pestaña)"
+            >
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                aria-hidden
+                className="text-gray-300"
+              >
+                <path
+                  d="M12 2C6.477 2 2 6.484 2 12.017c0 4.428 2.865 8.185 6.839 9.51.5.092.682-.217.682-.483 0-.237-.009-.866-.014-1.7-2.782.605-3.369-1.343-3.369-1.343-.455-1.157-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.004.07 1.532 1.033 1.532 1.033.892 1.53 2.341 1.088 2.91.833.091-.648.35-1.088.637-1.339-2.22-.253-4.555-1.112-4.555-4.948 0-1.092.39-1.986 1.03-2.686-.104-.254-.447-1.272.098-2.65 0 0 .84-.27 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.91-1.296 2.75-1.025 2.75-1.025.546 1.378.203 2.396.1 2.65.64.7 1.03 1.594 1.03 2.686 0 3.847-2.338 4.692-4.566 4.941.36.31.68.92.68 1.855 0 1.338-.012 2.418-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0022 12.017C22 6.484 17.522 2 12 2z"
+                  fill="currentColor"
+                />
+              </svg>
+              GitHub
+            </a>
           </nav>
-
-          <div className="flex items-center gap-3">
-            <a
-              href="#"
-              aria-label="GitHub (placeholder)"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-1 rounded hover:bg-[rgba(var(--primary),0.06)] focus:outline-none focus:ring-2 focus:ring-[rgb(var(--ring))]"
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-                <path d="M12 .5a12 12 0 00-3.8 23.4c.6.1.8-.2.8-.5v-2c-3.3.7-4-1.6-4-1.6-.5-1.3-1.1-1.6-1.1-1.6-.9-.6.1-.6.1-.6 1 .1 1.6 1 1.6 1 .9 1.6 2.4 1.1 3 .8.1-.7.4-1.1.7-1.4-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.4.1-2.9 0 0 1-.3 3.3 1.2a11.3 11.3 0 016 0C19 3 20 3.3 20 3.3c.6 1.5.2 2.6.1 2.9.7.8 1.2 1.9 1.2 3.2 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1 .8 2v3c0 .3.2.6.8.5A12 12 0 0012 .5z" />
-              </svg>
-            </a>
-
-            <a
-              href="#"
-              aria-label="Twitter (placeholder)"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-1 rounded hover:bg-[rgba(var(--primary),0.06)] focus:outline-none focus:ring-2 focus:ring-[rgb(var(--ring))]"
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-                <path d="M22 5.9c-.6.3-1.2.5-1.9.6.7-.4 1.2-1.1 1.4-1.9-.7.4-1.5.6-2.3.8-.6-.7-1.5-1.1-2.5-1.1-1.9 0-3.4 1.7-2.9 3.5C8.2 8.3 5.4 6.7 3.4 4c-.8 1.3-.4 3 .9 3.9-.5 0-1-.2-1.4-.4 0 1.5 1 2.8 2.5 3.1-.5.2-1 .2-1.6.1.4 1.3 1.6 2.3 3 2.3C6 16 4.3 16.6 2.5 16.5c1.5 1 3.3 1.6 5.2 1.6 6.3 0 9.8-5.4 9.6-10.1.6-.4 1.2-1 1.6-1.6-.6.3-1.3.5-2 .6z" />
-              </svg>
-            </a>
-          </div>
         </div>
       </div>
     </footer>
   );
-};
+}
