@@ -1,1 +1,2 @@
-export * from './layout/Layout'
+export * from './layout/Layout';
+export * from './MovieCard/MovieCard';
