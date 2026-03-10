@@ -1,142 +1,48 @@
 @import 'tailwindcss';
 
-:root {
-  --font-sans:
-    ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Arial, 'Noto Sans',
-    'Apple Color Emoji', 'Segoe UI Emoji';
-  --text-size: 16px;
-  --leading: 1.5;
-
-
-  --radius: 12px;
-
-
-  --bg: 248 250 252; /* slate-50 */
-  --surface: 255 255 255; /* white */
-  --text: 15 23 42; /* slate-900 */
-  --muted: 100 116 139; /* slate-500 */
-  --border: 226 232 240; /* slate-200 */
-
-  --primary: 99 102 241; 
-  --accent: 236 72 153; 
-  --ring: 99 102 241; 
-
- 
-  --success: 34 197 94; 
-  --warning: 245 158 11; 
-  --danger: 239 68 68; 
-
-
-  --shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
-
-  color-scheme: light;
-}
-
-:root[data-theme='dark'] {
-  --bg: 2 6 23; 
-  --surface: 15 23 42; 
-  --text: 226 232 240; 
-  --muted: 148 163 184; 
-  --border: 30 41 59; 
-
-  --primary: 129 140 248; 
-  --accent: 244 114 182; 
-  --ring: 129 140 248;
-
-  --shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
-
-  color-scheme: dark;
-}
-
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-html {
-  font-family: var(--font-sans);
-  font-size: var(--text-size);
-  line-height: var(--leading);
-  -webkit-text-size-adjust: 100%;
-  text-rendering: optimizeLegibility;
-  scroll-behavior: smooth;
-}
-
-body {
-  margin: 0;
-  min-height: 100dvh;
-  background: rgb(var(--bg));
-  color: rgb(var(--text));
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
+html,
+body,
 #root {
-  min-height: 100dvh;
-}
-
-img,
-picture,
-video,
-canvas,
-svg {
-  display: block;
-  max-width: 100%;
-}
-
-input,
-button,
-textarea,
-select {
-  font: inherit;
-  color: inherit;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
-:focus-visible {
-  outline: 2px solid rgb(var(--ring));
-  outline-offset: 2px;
+  @apply h-full min-h-screen bg-gray-900 text-gray-100 font-sans antialiased;
 }
 
 ::selection {
-  background: rgba(var(--primary), 0.22);
+  @apply bg-indigo-500 text-gray-100;
 }
 
-@media (pointer: fine) {
-  * {
-    scrollbar-width: thin;
-    scrollbar-color: rgba(100, 116, 139, 0.5) transparent;
-  }
+body::-webkit-scrollbar {
+  width: 8px;
+}
+body::-webkit-scrollbar-thumb {
+  @apply bg-gray-700 rounded-full;
+}
+body::-webkit-scrollbar-track {
+  @apply bg-gray-900;
+}
 
-  *::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
-  }
+a {
+  @apply text-indigo-400 hover:text-indigo-300 transition-colors underline underline-offset-2;
+}
 
-  *::-webkit-scrollbar-track {
-    background: transparent;
-  }
+input,
+textarea,
+select,
+button {
+  @apply bg-gray-800 text-gray-100 border-none outline-none rounded-sm;
+}
+input:focus,
+textarea:focus,
+select:focus {
+  @apply ring-2 ring-indigo-500;
+}
 
-  *::-webkit-scrollbar-thumb {
-    background: rgba(100, 116, 139, 0.35);
-    border-radius: 999px;
-    border: 2px solid transparent;
-    background-clip: content-box;
-  }
+.card {
+  @apply bg-gray-800 p-4 rounded-lg shadow-md border border-gray-700;
+}
 
-  *::-webkit-scrollbar-thumb:hover {
-    background: rgba(100, 116, 139, 0.55);
-    border: 2px solid transparent;
-    background-clip: content-box;
-  }
+.header {
+  @apply w-full bg-gray-950 border-b border-gray-800 py-4 px-8 flex items-center sticky top-0 z-10;
+}
+.footer {
+  @apply w-full bg-gray-950 border-t border-gray-800 py-4 px-8 flex items-center justify-between;
 }
