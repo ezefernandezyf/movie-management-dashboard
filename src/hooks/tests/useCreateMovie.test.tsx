@@ -10,7 +10,7 @@ const TestComp = ({ payload }: { payload: CreateMovieDto }) => {
   const mutation = useCreateMovie();
   useEffect(() => {
     mutation.mutate(payload);
-  }, [payload]);
+  }, [payload, mutation]);
   return null;
 };
 

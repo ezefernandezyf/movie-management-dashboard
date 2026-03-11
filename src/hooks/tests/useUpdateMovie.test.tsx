@@ -13,7 +13,7 @@ const TestComp = ({ params }: { params: UpdateParams }) => {
   const mutation = useUpdateMovie();
   useEffect(() => {
     mutation.mutate(params);
-  }, [params]);
+  }, [params, mutation]);
   return null;
 };
 
