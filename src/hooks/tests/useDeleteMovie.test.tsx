@@ -10,7 +10,7 @@ const TestComp = ({ id }: { id: number }) => {
   const mutation = useDeleteMovie();
   useEffect(() => {
     mutation.mutate(id);
-  }, [id]);
+  }, [id, mutation]);
   return null;
 };
 
