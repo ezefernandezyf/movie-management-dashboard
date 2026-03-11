@@ -11,7 +11,7 @@ type Props = {
     cancelLabel?: string;
 };
 
-export function ConfirmDialog({
+export const ConfirmDialog = ({
     open,
     title = 'Confirmar acción',
     description,
@@ -20,7 +20,7 @@ export function ConfirmDialog({
     isLoading = false,
     confirmLabel = 'Confirmar',
     cancelLabel = 'Cancelar',
-}: Props): React.JSX.Element | null {
+}: Props): React.JSX.Element | null => {
     const confirmBtnRef = useRef<HTMLButtonElement | null>(null);
 
     useEffect(() => {
