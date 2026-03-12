@@ -13,7 +13,6 @@ describe('MovieModal', () => {
 
         render(<MovieModal open={true} onClose={onClose} onSaved={onSaved} />);
 
-        // Modal title
         expect(screen.getByText(/Nueva película|Editar película/i)).toBeDefined();
 
         await user.type(screen.getByLabelText(/Título/i), 'Test Movie');
