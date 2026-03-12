@@ -40,12 +40,11 @@ export function Header(): React.JSX.Element {
     return () => window.removeEventListener('mousedown', onDown);
   }, [open]);
 
+  // Active link: color change only (no underline). Inactive: lighter gray.
   const navLinkClass = ({ isActive }: { isActive: boolean }) =>
     [
       'px-3 py-2 text-sm transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-indigo-500',
-      isActive
-        ? 'text-indigo-300 border-b-2 border-indigo-500 pb-1 font-medium'
-        : 'text-gray-200 hover:text-indigo-200',
+      isActive ? 'text-indigo-300 font-medium' : 'text-gray-200 hover:text-indigo-200',
     ].join(' ');
 
   const handleSearchSubmit = (e?: React.SyntheticEvent<HTMLFormElement, SubmitEvent>) => {
@@ -62,8 +61,8 @@ export function Header(): React.JSX.Element {
   return (
     <header className="sticky top-0 z-40 bg-gray-950 border-b border-gray-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="h-16 flex items-center justify-between">
-          <div className="flex items-center gap-4">
+        <div className="h-16 flex items-center gap-4">
+          <div className="flex items-center">
             <Link to="/" aria-label="Inicio" className="inline-flex items-center gap-2">
               <svg
                 width="28"
@@ -80,20 +79,22 @@ export function Header(): React.JSX.Element {
             </Link>
           </div>
 
-          <div className="hidden md:flex md:items-center md:gap-6 ">
-            <nav className="flex items-center gap-1" aria-label="Primary">
-              <NavLink to="/home" className={navLinkClass}>
-                Inicio
-              </NavLink>
-              <NavLink to="/movies" className={navLinkClass}>
-                Catálogo
-              </NavLink>
-              <NavLink to="/nuevo" className={navLinkClass}>
-                Nuevo
-              </NavLink>
-            </nav>
+          <nav className="hidden md:flex md:items-center md:gap-1 ml-6" aria-label="Primary">
+            <NavLink to="/home" className={navLinkClass}>
+              Inicio
+            </NavLink>
+            <NavLink to="/movies" className={navLinkClass}>
+              Catálogo
+            </NavLink>
+            <NavLink to="/nuevo" className={navLinkClass}>
+              Nuevo
+            </NavLink>
+          </nav>
 
-            <form onSubmit={handleSearchSubmit} className="ml-6 flex items-center gap-2">
+          <div className="flex-1" />
+
+          <div className="flex items-center gap-3">
+            <form onSubmit={handleSearchSubmit} className="hidden md:flex items-center gap-2">
               <label htmlFor="header-search" className="sr-only">
                 Buscar películas
               </label>
@@ -107,15 +108,13 @@ export function Header(): React.JSX.Element {
               />
               <button
                 type="submit"
-                className="px-3 py-2 rounded-md bg-indigo-600 text-white text-sm hover:bg-indigo-500 transition"
+                className="px-3 py-2 rounded-md bg-indigo-600 text-white text-sm hover:bg-indigo-500 transition focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 aria-label="Buscar"
               >
                 Buscar
               </button>
             </form>
-          </div>
 
-          <div className="flex items-center gap-3">
             <button
               type="button"
               aria-controls="mobile-menu"

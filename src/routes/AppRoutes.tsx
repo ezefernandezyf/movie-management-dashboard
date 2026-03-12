@@ -1,6 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { Layout } from '../components';
-import MoviesPage from '../pages/MoviesPage';
+import { MoviesPage } from '../pages/MoviesPage';
 
 export default function AppRoutes(): React.JSX.Element {
     return (
