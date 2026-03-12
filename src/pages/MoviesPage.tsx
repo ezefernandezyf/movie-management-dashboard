@@ -4,7 +4,7 @@ import type { Movie } from '../models';
 import { useMovies, useDeleteMovie } from '../hooks';
 import { FiltersPanel, type Filters } from '../components/FiltersPanel/FiltersPanel';
 import { showSuccess, showError } from '../lib/toast';
-import { MovieCard } from '../components';
+import { MovieCard, ConfirmDialog } from '../components';
 
 export function MoviesPage(): React.JSX.Element {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -21,6 +21,11 @@ export function MoviesPage(): React.JSX.Element {
 
     const [searchInput, setSearchInput] = useState<string>(qParam ?? '');
     const [deletingId, setDeletingId] = useState<number | string | null>(null);
+
+    const [confirmOpen, setConfirmOpen] = useState(false);
+    const [confirmTargetId, setConfirmTargetId] = useState<number | string | null>(null);
+    const [confirmTitle, setConfirmTitle] = useState<string | undefined>(undefined);
+    const [confirmLoading, setConfirmLoading] = useState(false);
 
     useEffect(() => {
         setSearchInput(qParam ?? '');
@@ -70,7 +75,7 @@ export function MoviesPage(): React.JSX.Element {
         },
     });
 
-    const handleSearchSubmit = (e?: React.SubmitEvent<HTMLFormElement>) => {
+    const handleSearchSubmit = (e?: React.FormEvent) => {
         e?.preventDefault();
         const q = searchInput.trim();
         const params = new URLSearchParams();
@@ -106,16 +111,30 @@ export function MoviesPage(): React.JSX.Element {
         setSearchParams(params);
     };
 
-    const handleDelete = async (id: number | string) => {
-        const ok = window.confirm('¿Eliminar esta película? Esta acción no se puede deshacer.');
-        if (!ok) return;
+    const openConfirm = (id: number | string, title?: string) => {
+        setConfirmTargetId(id);
+        setConfirmTitle(title);
+        setConfirmOpen(true);
+    };
+
+    const closeConfirm = () => {
+        setConfirmOpen(false);
+        setConfirmTargetId(null);
+        setConfirmTitle(undefined);
+        setConfirmLoading(false);
+    };
+
+    const handleConfirmDelete = async () => {
+        if (confirmTargetId == null) return;
         try {
-            setDeletingId(id);
-            await deleteMutation.mutateAsync(id);
+            setConfirmLoading(true);
+            setDeletingId(confirmTargetId);
+            await deleteMutation.mutateAsync(confirmTargetId);
         } catch {
-            // handled by hook
         } finally {
+            setConfirmLoading(false);
             setDeletingId(null);
+            closeConfirm();
         }
     };
 
@@ -227,7 +246,7 @@ export function MoviesPage(): React.JSX.Element {
                                         <MovieCard
                                             movie={m}
                                             onEdit={() => navigate(`/movies/${idStr}/edit`)}
-                                            onDelete={(id) => void handleDelete(id)}
+                                            onDelete={(id) => openConfirm(id, m.title)}
                                             isDeleting={deletingId !== null && String(deletingId) === idStr}
                                         />
                                     </li>
@@ -237,6 +256,17 @@ export function MoviesPage(): React.JSX.Element {
                     )}
                 </div>
             </div>
+
+            <ConfirmDialog
+                open={confirmOpen}
+                title={confirmTitle ?? 'Eliminar película'}
+                description="¿Estás seguro? Esta acción no se puede deshacer."
+                onConfirm={handleConfirmDelete}
+                onCancel={closeConfirm}
+                isLoading={confirmLoading}
+                confirmLabel="Eliminar"
+                cancelLabel="Cancelar"
+            />
         </div>
     );
 }
