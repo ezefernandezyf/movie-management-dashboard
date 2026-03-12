@@ -131,6 +131,7 @@ export function MoviesPage(): React.JSX.Element {
             setDeletingId(confirmTargetId);
             await deleteMutation.mutateAsync(confirmTargetId);
         } catch {
+            // Error handling is done in the mutation's onError callback
         } finally {
             setConfirmLoading(false);
             setDeletingId(null);

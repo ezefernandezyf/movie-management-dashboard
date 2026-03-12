@@ -1,6 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { Layout } from '../components';
-import { HomePage, MoviesPage} from '../pages';
+import { HomePage, MovieDetailsPage, MoviesPage } from '../pages';
 
 export default function AppRoutes(): React.JSX.Element {
     return (
@@ -10,7 +10,7 @@ export default function AppRoutes(): React.JSX.Element {
                 <Route path="home" element={<HomePage />} />
                 <Route path="movies" element={<MoviesPage />} />
                 <Route path="movies/new" element={<h1>New movie placeholder</h1>} />
-                <Route path="movies/:id" element={<h1>Movie details placeholder</h1>} />
+                <Route path="movies/:id" element={<MovieDetailsPage />} />
                 <Route path="movies/:id/edit" element={<h1>Edit movie placeholder</h1>} />
 
                 <Route path="*" element={<h1>Not found</h1>} />

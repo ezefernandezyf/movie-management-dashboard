@@ -33,12 +33,13 @@ const movies: Movie[] = [
 
 describe('HomePage', () => {
     it('muestra métricas y top rated', () => {
-        vi.spyOn(hooks, 'useMovies').mockReturnValue({
+        const useMoviesMockReturn: Partial<ReturnType<typeof hooks.useMovies>> = {
             data: movies,
             isLoading: false,
             isError: false,
             refetch: vi.fn(),
-        } as any);
+        };
+        vi.spyOn(hooks, 'useMovies').mockReturnValue(useMoviesMockReturn as ReturnType<typeof hooks.useMovies>);
 
         render(
             <MemoryRouter>

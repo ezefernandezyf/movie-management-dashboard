@@ -1,4 +1,4 @@
-import type { Movie } from "../Forms/movie.schema";
+import type { Movie } from "../../models";
 import { EmptyState, ErrorMessage, LoadingSpinner } from "../helpers";
 import { MovieCard } from "../MovieCard/MovieCard";
 
