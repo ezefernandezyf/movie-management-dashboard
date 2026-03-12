@@ -40,11 +40,10 @@ export function Header(): React.JSX.Element {
     return () => window.removeEventListener('mousedown', onDown);
   }, [open]);
 
-  // Active link: color change only (no underline). Inactive: lighter gray.
   const navLinkClass = ({ isActive }: { isActive: boolean }) =>
     [
-      'px-3 py-2 text-sm transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-indigo-500',
-      isActive ? 'text-indigo-300 font-medium' : 'text-gray-200 hover:text-indigo-200',
+      'px-3 py-2 text-sm transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-indigo-500 underline underline-offset-4 hover:underline',
+      isActive ? 'text-indigo-300 font-medium' : 'text-gray-200 hover:text-indigo-200 ',
     ].join(' ');
 
   const handleSearchSubmit = (e?: React.SyntheticEvent<HTMLFormElement, SubmitEvent>) => {
