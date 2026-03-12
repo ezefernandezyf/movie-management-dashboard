@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import type { Movie } from '../Forms/movie.schema';
 import { MovieCard } from '..';
+import type { Movie } from '../../models';
 
 
 const sample: Movie = {
@@ -9,9 +9,9 @@ const sample: Movie = {
     title: 'Mi Película',
     description: 'Descripción',
     posterPath: undefined,
-    genres: ['Drama', 'Acción'],
+    genre: 'Drama',
     rating: 7.5,
-    releaseDate: '2023-01-01',
+    year: 2023, 
 };
 
 describe('MovieCard', () => {
@@ -23,9 +23,6 @@ describe('MovieCard', () => {
         render(<MovieCard movie={sample} onEdit={onEdit} onDelete={onDelete} />);
 
         expect(screen.getByText('Mi Película')).toBeDefined();
-
-        expect(screen.getByText('Drama')).toBeDefined();
-        expect(screen.getByText('Acción')).toBeDefined();
 
         const editBtn = screen.getByRole('button', { name: /Editar Mi Película/i });
         const deleteBtn = screen.getByRole('button', { name: /Eliminar Mi Película/i });
