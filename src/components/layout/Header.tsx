@@ -85,7 +85,7 @@ export function Header(): React.JSX.Element {
             <NavLink to="/movies" className={navLinkClass}>
               Catálogo
             </NavLink>
-            <NavLink to="/nuevo" className={navLinkClass}>
+            <NavLink to="/movies/new" className={navLinkClass}>
               Nuevo
             </NavLink>
           </nav>
