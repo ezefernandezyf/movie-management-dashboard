@@ -17,8 +17,8 @@ describe('MovieForm', () => {
         const titleInput = screen.getByLabelText(/Título/i);
         await user.type(titleInput, 'Matrix');
 
-        const genresInput = screen.getByLabelText(/Géneros/i);
-        await user.type(genresInput, 'Ciencia ficción, Acción');
+        const genreInput = screen.getByLabelText(/Género/i);
+        await user.type(genreInput, 'Ciencia ficción');
 
         const ratingInput = screen.getByLabelText(/Puntuación/i);
         await user.clear(ratingInput);
@@ -32,7 +32,7 @@ describe('MovieForm', () => {
         screen.debug();
 
         expect(payload.title).toBe('Matrix');
-        expect(payload.genres).toEqual(['Ciencia ficción', 'Acción']);
+        expect(payload.genre).toEqual('Ciencia ficción');
         expect(payload.rating).toBe(8.2);
     });
 });

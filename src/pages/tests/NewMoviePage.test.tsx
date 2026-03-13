@@ -17,8 +17,8 @@ describe('NewMoviePage', () => {
             isLoading: false,
         } as unknown as ReturnType<typeof hooks.useCreateMovie>);
 
-        vi.spyOn(toast, 'showSuccess').mockImplementation(() => 'ok');
-        vi.spyOn(toast, 'showError').mockImplementation(() => 'ok');
+        const showSuccessSpy = vi.spyOn(toast, 'showSuccess').mockImplementation(() => 'ok');
+        const showErrorSpy = vi.spyOn(toast, 'showError').mockImplementation(() => 'ok');
 
         render(
             <MemoryRouter initialEntries={['/movies/new']}>
@@ -48,7 +48,10 @@ describe('NewMoviePage', () => {
                     status: 'active',
                 }),
             );
-            expect(toast.showSuccess).toHaveBeenCalledWith('Película creada');
+
+            expect(showSuccessSpy).not.toHaveBeenCalled();
+            expect(showErrorSpy).not.toHaveBeenCalled();
+
             expect(screen.getByText(/Movies Page/i)).toBeInTheDocument();
         });
     });

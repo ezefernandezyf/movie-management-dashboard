@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import type { Movie } from '../Forms/movie.schema';
+import type { Movie } from '../../models';
 import { MovieList } from '..';
 
 const sampleMovies: Movie[] = [
@@ -8,26 +8,28 @@ const sampleMovies: Movie[] = [
         id: 1,
         title: 'Peli Uno',
         description: 'Desc 1',
-        posterPath: undefined,
-        genres: ['Drama'],
+        posterPath: 'http://example.com/poster1.jpg',
+        genre: 'Drama',
         rating: 8,
-        releaseDate: '2022-01-01',
+        year: 2022,
+        status: 'active',
     },
     {
         id: 2,
         title: 'Peli Dos',
         description: 'Desc 2',
-        posterPath: undefined,
-        genres: ['Comedia'],
+        posterPath: 'http://example.com/poster2.jpg',
+        genre: 'Comedia',
         rating: 7,
-        releaseDate: '2021-01-01',
+        year: 2021,
+        status: 'active',
     },
 ];
 
 describe('MovieList', () => {
     it('muestra spinner cuando está cargando', () => {
         render(<MovieList isLoading />);
-        expect(screen.getByRole('status')).toBeDefined();
+        expect(screen.getByRole('status')).toBeInTheDocument();
     });
 
     it('muestra error y llama onRetry', async () => {
@@ -35,7 +37,7 @@ describe('MovieList', () => {
         const onRetry = vi.fn();
         render(<MovieList isError="Fallo cargando" onRetry={onRetry} />);
 
-        expect(screen.getByText('Fallo cargando')).toBeDefined();
+        expect(screen.getByText('Fallo cargando')).toBeInTheDocument();
 
         const btn = screen.getByRole('button', { name: /Reintentar/i });
         await user.click(btn);
@@ -47,7 +49,7 @@ describe('MovieList', () => {
         const onCreate = vi.fn();
         render(<MovieList movies={[]} onCreate={onCreate} />);
 
-        expect(screen.getByText(/No hay películas/i)).toBeDefined();
+        expect(screen.getByText(/No hay películas/i)).toBeInTheDocument();
         const cta = screen.getByRole('button', { name: /Agregar película/i });
         await user.click(cta);
         expect(onCreate).toHaveBeenCalledTimes(1);
@@ -60,8 +62,8 @@ describe('MovieList', () => {
 
         render(<MovieList movies={sampleMovies} onEdit={onEdit} onDelete={onDelete} />);
 
-        expect(screen.getByText('Peli Uno')).toBeDefined();
-        expect(screen.getByText('Peli Dos')).toBeDefined();
+        expect(screen.getByText('Peli Uno')).toBeInTheDocument();
+        expect(screen.getByText('Peli Dos')).toBeInTheDocument();
 
         const editBtn = screen.getByRole('button', { name: /Editar Peli Uno/i });
         const deleteBtn = screen.getByRole('button', { name: /Eliminar Peli Uno/i });
