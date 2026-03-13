@@ -31,6 +31,15 @@ export function MoviesPage(): React.JSX.Element {
         setSearchInput(qParam ?? '');
     }, [qParam]);
 
+    useEffect(() => {
+        if (window.location.search.includes('created=1')) {
+            showSuccess('Película creada');
+            const params = new URLSearchParams(window.location.search);
+            params.delete('created');
+            navigate(`/movies?${params.toString()}`, { replace: true });
+        }
+    }, [navigate]);
+
     const { data: movies, isLoading, isError, error, refetch } = useMovies({
         q: qParam,
         page: pageParam,

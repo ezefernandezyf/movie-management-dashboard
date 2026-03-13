@@ -6,12 +6,18 @@ import type { Movie, CreateMovieDto } from '../models';
 export const useCreateMovie = (options?: UseMutationOptions<Movie, Error, CreateMovieDto>) => {
   const queryClient = useQueryClient();
 
-  return useMutation<Movie, Error, CreateMovieDto>({
-    mutationFn: createMovie,
-    onSuccess: (data, variables, context, mutation) => {
-      queryClient.invalidateQueries({ queryKey: movieKeys.all });
-      options?.onSuccess?.(data, variables, context, mutation);
-    },
+  const mutation = useMutation<Movie, Error, CreateMovieDto>({
     ...options,
+    mutationFn: createMovie,
+    onSuccess: (data, variables, context, mutationInfo) => {
+      void queryClient.invalidateQueries({ queryKey: movieKeys.all });
+      options?.onSuccess?.(data, variables, context, mutationInfo);
+    },
   });
+
+  return {
+    ...mutation,
+    isLoading: mutation.status === 'pending',
+  } as typeof mutation & { isLoading: boolean };
 };
+
