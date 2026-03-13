@@ -1,14 +1,14 @@
 {
   "movies": [
     {
-      "id": "1",
       "title": "The Godfather",
       "description": "El patriarca de una dinastía criminal transfiere el control de su imperio.",
       "posterPath": "https://filmhallen.nl/content/uploads/sites/4/2025/09/the-godfather-poster-240x360.jpeg",
       "genre": "Crime",
-      "year": 1972,
       "rating": 9.2,
-      "status": "active"
+      "year": 1972,
+      "status": "active",
+      "id": "1"
     },
     {
       "id": "2",
@@ -41,14 +41,14 @@
       "status": "archived"
     },
     {
-      "id": "6",
       "title": "The Matrix",
       "description": "Un hacker descubre que su realidad es una simulación controlada por máquinas.",
-      "posterPath": "https://play-lh.googleusercontent.com/EJB03pCBOmKo_GVEIZiks3LTDUjf0AWv3AO6A5544ddbTFaXppO8_cfO1NmYqPCsA1Do=w240-h480-rw",
+      "posterPath": "https://http2.mlstatic.com/D_NQ_NP_756444-MLA46741993452_072021-O.webp",
       "genre": "Sci-Fi",
-      "year": 1999,
       "rating": 8.7,
-      "status": "active"
+      "year": 1999,
+      "status": "active",
+      "id": "6"
     },
     {
       "id": "8",
@@ -81,14 +81,14 @@
       "status": "active"
     },
     {
-      "id": "11",
       "title": "Back to the Future",
       "description": "Un adolescente viaja accidentalmente al pasado en un DeLorean.",
-      "posterPath": "https://play-lh.googleusercontent.com/HOunMSj4XhJzITDYEHRt3D8oJbcy0YhMtUFjANWMr3RRp7Gl7zrZooVqMwT2D_KlJcsk=w240-h480-rw",
+      "posterPath": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBotvfq6eds4NHsEtwVRZfYmtOIzzC2m4Ojw&s",
       "genre": "Sci-Fi",
-      "year": 1985,
       "rating": 8.5,
-      "status": "active"
+      "year": 1985,
+      "status": "active",
+      "id": "11"
     }
   ]
 }
