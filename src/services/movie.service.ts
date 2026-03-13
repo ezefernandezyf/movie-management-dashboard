@@ -2,9 +2,44 @@ import { API_ENDPOINTS, get, post, put, del } from './';
 import type { Movie, CreateMovieDto, UpdateMovieDto, MovieQueryParams } from '../models/';
 import { mapToServerParams } from '../utils';
 
-export const getMovies = (uiParams?: MovieQueryParams, signal?: AbortSignal) => {
+const isObject = (v: unknown): v is Record<string, unknown> => typeof v === 'object' && v !== null;
+
+const hasDataArray = (v: unknown): v is { data: unknown } =>
+  isObject(v) && 'data' in v && Array.isArray((v as Record<string, unknown>).data);
+
+
+export const getMovies = async (uiParams?: MovieQueryParams, signal?: AbortSignal) => {
   const serverParams = mapToServerParams(uiParams);
-  return get<Movie[]>(API_ENDPOINTS.MOVIES, { params: serverParams, signal });
+
+  const res = await get<unknown>(API_ENDPOINTS.MOVIES, { params: serverParams, signal });
+
+  if (Array.isArray(res)) {
+    return res as Movie[];
+  }
+
+  if (hasDataArray(res)) {
+    const data = (res as Record<string, unknown>).data as unknown;
+    if (Array.isArray(data)) {
+      if (data.length > 0) {
+        return data as Movie[];
+      }
+
+      const hadQueryParams = serverParams && Object.keys(serverParams).length > 0;
+      if (hadQueryParams) {
+        const fallback = await get<unknown>(API_ENDPOINTS.MOVIES, { signal });
+        if (Array.isArray(fallback)) {
+          return fallback as Movie[];
+        }
+        if (hasDataArray(fallback)) {
+          return (fallback as Record<string, unknown>).data as Movie[];
+        }
+      }
+
+      return [] as Movie[];
+    }
+  }
+
+  throw new Error('getMovies: unexpected response shape from server');
 };
 
 export const getMovieById = (id: number | string, signal?: AbortSignal) => {

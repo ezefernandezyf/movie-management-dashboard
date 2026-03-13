@@ -1,4 +1,3 @@
-import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -20,12 +19,16 @@ const formSchema = z.object({
         .string()
         .optional()
         .refine((v) => !v || isValidUrl(v), 'Debe ser una URL válida'),
-    genres: z.string().optional(), 
+    genre: z.string().optional(),
     rating: z
         .string()
         .optional()
         .refine((v) => !v || (!Number.isNaN(Number(v)) && Number(v) >= 0 && Number(v) <= 10), 'Puntuación debe ser un número entre 0 y 10'),
-    releaseDate: z.string().optional(),
+    year: z
+        .string()
+        .optional()
+        .refine((v) => !v || (!Number.isNaN(Number(v)) && Number(v) > 1800), 'Año inválido'),
+    status: z.enum(['active', 'archived']).optional(),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -49,9 +52,10 @@ export function MovieForm({
         title: defaultValues?.title ?? '',
         description: defaultValues?.description ?? '',
         posterPath: defaultValues?.posterPath ?? '',
-        genres: defaultValues?.genres ? defaultValues.genres.join(', ') : '',
+        genre: defaultValues?.genre ?? '',
         rating: defaultValues?.rating !== undefined ? String(defaultValues.rating) : '',
-        releaseDate: defaultValues?.releaseDate ?? '',
+        year: defaultValues?.year !== undefined ? String(defaultValues.year) : '',
+        status: (defaultValues?.status as 'active' | 'archived') ?? 'active',
     };
 
     const {
@@ -65,24 +69,14 @@ export function MovieForm({
     });
 
     const submitHandler = (values: FormValues) => {
-        const genresArray =
-            values.genres && values.genres.trim().length > 0
-                ? values.genres
-                    .split(',')
-                    .map((g) => g.trim())
-                    .filter((g) => g.length > 0)
-                : undefined;
-
-        const ratingValue =
-            values.rating && values.rating.toString().trim().length > 0 ? Number(values.rating) : undefined;
-
         const payload: CreateMovieDto = {
             title: values.title,
             description: values.description ? values.description : undefined,
             posterPath: values.posterPath ? values.posterPath : undefined,
-            genres: genresArray,
-            rating: ratingValue,
-            releaseDate: values.releaseDate ? values.releaseDate : undefined,
+            genre: values.genre && values.genre.trim().length > 0 ? values.genre.trim() : undefined,
+            rating: values.rating && values.rating.toString().trim().length > 0 ? Number(values.rating) : undefined,
+            year: values.year && values.year.toString().trim().length > 0 ? Number(values.year) : undefined,
+            status: (values.status as 'active' | 'archived') ?? 'active',
         };
 
         return onSubmit(payload);
@@ -130,43 +124,44 @@ export function MovieForm({
                 </div>
 
                 <div>
-                    <label htmlFor="releaseDate" className="block text-sm font-medium text-gray-200">
-                        Fecha de estreno
+                    <label htmlFor="year" className="block text-sm font-medium text-gray-200">
+                        Año
                     </label>
                     <Controller
                         control={control}
-                        name="releaseDate"
+                        name="year"
                         render={({ field }) => (
                             <input
                                 {...field}
-                                id="releaseDate"
-                                type="date"
+                                id="year"
+                                type="number"
+                                placeholder="1985"
                                 className="mt-1 block w-full px-3 py-2 rounded-md bg-gray-800 border border-gray-700 text-gray-100 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 outline-none"
                             />
                         )}
                     />
-                    {errors.releaseDate && <p className="mt-1 text-xs text-red-400">{errors.releaseDate.message}</p>}
+                    {errors.year && <p className="mt-1 text-xs text-red-400">{errors.year.message}</p>}
                 </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                    <label htmlFor="genres" className="block text-sm font-medium text-gray-200">
-                        Géneros (separados por coma)
+                    <label htmlFor="genre" className="block text-sm font-medium text-gray-200">
+                        Género
                     </label>
                     <Controller
                         control={control}
-                        name="genres"
+                        name="genre"
                         render={({ field }) => (
                             <input
                                 {...field}
-                                id="genres"
-                                placeholder="Drama, Acción"
+                                id="genre"
+                                placeholder="Sci-Fi"
                                 className="mt-1 block w-full px-3 py-2 rounded-md bg-gray-800 border border-gray-700 text-gray-100 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 outline-none"
                             />
                         )}
                     />
-                    {errors.genres && <p className="mt-1 text-xs text-red-400">Formato de géneros inválido</p>}
+                    {errors.genre && <p className="mt-1 text-xs text-red-400">Formato de género inválido</p>}
                 </div>
 
                 <div>
@@ -191,6 +186,26 @@ export function MovieForm({
                     />
                     {errors.rating && <p className="mt-1 text-xs text-red-400">{errors.rating.message}</p>}
                 </div>
+            </div>
+
+            <div>
+                <label htmlFor="status" className="block text-sm font-medium text-gray-200">
+                    Estado
+                </label>
+                <Controller
+                    control={control}
+                    name="status"
+                    render={({ field }) => (
+                        <select
+                            {...field}
+                            id="status"
+                            className="mt-1 block w-full px-3 py-2 rounded-md bg-gray-800 border border-gray-700 text-gray-100 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 outline-none"
+                        >
+                            <option value="active">Active</option>
+                            <option value="archived">Archived</option>
+                        </select>
+                    )}
+                />
             </div>
 
             <div className="flex items-center justify-end gap-3">

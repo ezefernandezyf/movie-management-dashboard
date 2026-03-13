@@ -1,47 +1,27 @@
 {
   "movies": [
     {
-      "id": 1,
-      "title": "The Shawshank Redemption",
-      "description": "Dos hombres encarcelados forjan una amistad a lo largo de décadas.",
-      "posterPath": "https://static.wikia.nocookie.net/doblaje/images/5/56/The-Shawshank-Redemption-Latino1994.jpg/revision/latest/thumbnail/width/360/height/360?cb=20240224231124&path-prefix=es",
-      "genre": "Drama",
-      "year": 1994,
-      "rating": 9.3,
-      "status": "active"
-    },
-    {
-      "id": 2,
       "title": "The Godfather",
       "description": "El patriarca de una dinastía criminal transfiere el control de su imperio.",
       "posterPath": "https://filmhallen.nl/content/uploads/sites/4/2025/09/the-godfather-poster-240x360.jpeg",
       "genre": "Crime",
-      "year": 1972,
       "rating": 9.2,
-      "status": "active"
+      "year": 1972,
+      "status": "active",
+      "id": "1"
     },
     {
-      "id": 3,
+      "id": "2",
       "title": "The Dark Knight",
       "description": "Batman se enfrenta a su mayor enemigo, el Joker.",
       "posterPath": "https://www.originalfilmart.com/cdn/shop/products/dark_knight_english_original_film_art_a_spo_240x.jpg?v=1562539377",
       "genre": "Action",
       "year": 2008,
-      "rating": 9.0,
+      "rating": 9,
       "status": "archived"
     },
     {
-      "id": 4,
-      "title": "Pulp Fiction",
-      "description": "Las vidas de varios criminales se entrelazan en Los Ángeles.",
-      "posterPath": "https://static.wikia.nocookie.net/quentin-tarantino/images/0/08/Pf1.jpg/revision/latest/thumbnail/width/360/height/360?cb=20180121213601",
-      "genre": "Crime",
-      "year": 1994,
-      "rating": 8.9,
-      "status": "active"
-    },
-    {
-      "id": 5,
+      "id": "3",
       "title": "Inception",
       "description": "Un ladrón que roba secretos corporativos mediante el uso de tecnología de sueños.",
       "posterPath": "https://images.cdn2.buscalibre.com/fit-in/360x360/2b/48/688d71918089328ff470874818020ffd.jpg",
@@ -51,7 +31,7 @@
       "status": "active"
     },
     {
-      "id": 6,
+      "id": "4",
       "title": "Fight Club",
       "description": "Un oficinista insomne y un vendedor de jabón forman un club clandestino.",
       "posterPath": "https://img.peliplat.com/api/resize/v1?imagePath=std/202005/0/6/06f493826d7d3d6b982c85faf439bdfa.jpg&mode=FILL&width=240&height=360&limit=false&c=1.jpg",
@@ -61,47 +41,17 @@
       "status": "archived"
     },
     {
-      "id": 7,
-      "title": "Forrest Gump",
-      "description": "La vida de un hombre sencillo que presencia eventos históricos clave.",
-      "posterPath": "https://images.cdn1.buscalibre.com/fit-in/360x360/20/54/205467ebea56784d4affcbe7bb2aa33b.jpg",
-      "genre": "Drama",
-      "year": 1994,
-      "rating": 8.8,
-      "status": "active"
-    },
-    {
-      "id": 8,
       "title": "The Matrix",
       "description": "Un hacker descubre que su realidad es una simulación controlada por máquinas.",
-      "posterPath": "https://play-lh.googleusercontent.com/EJB03pCBOmKo_GVEIZiks3LTDUjf0AWv3AO6A5544ddbTFaXppO8_cfO1NmYqPCsA1Do=w240-h480-rw",
+      "posterPath": "https://http2.mlstatic.com/D_NQ_NP_756444-MLA46741993452_072021-O.webp",
       "genre": "Sci-Fi",
-      "year": 1999,
       "rating": 8.7,
-      "status": "active"
+      "year": 1999,
+      "status": "active",
+      "id": "6"
     },
     {
-      "id": 9,
-      "title": "Star Wars: Episode IV",
-      "description": "Luke Skywalker se une a una rebelión para destruir una superarma.",
-      "posterPath": "https://static.wikia.nocookie.net/slyarmy/images/4/4a/Episode4.jpg/revision/latest/thumbnail/width/360/height/360?cb=20230505062336",
-      "genre": "Adventure",
-      "year": 1977,
-      "rating": 8.6,
-      "status": "archived"
-    },
-    {
-      "id": 10,
-      "title": "Parasite",
-      "description": "Una familia pobre se infiltra en la vida de una familia rica.",
-      "posterPath": "https://img.peliplat.com/api/resize/v1?imagePath=std/201906/3/3/331ec0f46409e125d5d27a0013ea8b55.jpg&mode=FILL&width=240&height=360&limit=false&c=1.jpg",
-      "genre": "Thriller",
-      "year": 2019,
-      "rating": 8.5,
-      "status": "active"
-    },
-    {
-      "id": 11,
+      "id": "8",
       "title": "Interstellar",
       "description": "Un equipo de exploradores viaja a través de un agujero de gusano en el espacio.",
       "posterPath": "https://in.bmscdn.com/events/moviecard/ET00019066.jpg",
@@ -111,7 +61,7 @@
       "status": "active"
     },
     {
-      "id": 12,
+      "id": "9",
       "title": "Spirited Away",
       "description": "Una niña queda atrapada en un mundo mágico de espíritus.",
       "posterPath": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgV6SYrsVnYVRd0R94mJ9gdJuUO9jVm9sf2w&s",
@@ -121,7 +71,7 @@
       "status": "archived"
     },
     {
-      "id": 13,
+      "id": "10",
       "title": "Gladiator",
       "description": "Un general romano traicionado busca venganza contra el emperador corrupto.",
       "posterPath": "https://img.peliplat.com/api/resize/v1?imagePath=std/202105/d/e/de50e9611031f4fd986397d630ba8645.jpg&mode=FILL&width=240&height=360&limit=false&c=1.jpg",
@@ -131,24 +81,14 @@
       "status": "active"
     },
     {
-      "id": 14,
-      "title": "The Lion King",
-      "description": "Un joven león debe asumir su papel como rey tras la muerte de su padre.",
-      "posterPath": "https://static.wikia.nocookie.net/disney-material/images/d/df/The_Lion_King.webp/revision/latest/thumbnail/width/360/height/360?cb=20220602202743",
-      "genre": "Animation",
-      "year": 1994,
-      "rating": 8.5,
-      "status": "archived"
-    },
-    {
-      "id": 15,
       "title": "Back to the Future",
       "description": "Un adolescente viaja accidentalmente al pasado en un DeLorean.",
-      "posterPath": "https://play-lh.googleusercontent.com/HOunMSj4XhJzITDYEHRt3D8oJbcy0YhMtUFjANWMr3RRp7Gl7zrZooVqMwT2D_KlJcsk=w240-h480-rw",
+      "posterPath": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBotvfq6eds4NHsEtwVRZfYmtOIzzC2m4Ojw&s",
       "genre": "Sci-Fi",
-      "year": 1985,
       "rating": 8.5,
-      "status": "active"
+      "year": 1985,
+      "status": "active",
+      "id": "11"
     }
   ]
 }
