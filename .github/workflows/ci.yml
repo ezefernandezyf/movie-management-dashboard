@@ -1,38 +1,54 @@
 name: CI
 
 on:
-  push:
-    branches:
-      - main
-      - feature/release-setup-ci-vercel
-  pull_request:
-    branches:
-      - main
+	push:
+		branches: ["main", "master"]
+	pull_request:
+		branches: ["main", "master"]
+
+concurrency:
+	group: ${{ github.workflow }}-${{ github.ref }}
+	cancel-in-progress: true
 
 jobs:
-  ci:
-    name: Lint · Test · Build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+	build:
+		name: Build and Test
+		runs-on: ubuntu-latest
+		strategy:
+			matrix:
+				node-version: [18.x, 20.x]
+		steps:
+			- uses: actions/checkout@v4
 
-      - name: Use Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
-          cache: 'npm'
+			- name: Use Node.js ${{ matrix.node-version }}
+				uses: actions/setup-node@v4
+				with:
+					node-version: ${{ matrix.node-version }}
+					cache: 'npm'
 
-      - name: Install dependencies
-        run: npm ci
+			- name: Install dependencies
+				run: npm ci
 
-      - name: Lint
-        run: npm run lint
+			- name: Lint
+				run: npm run lint
 
-      - name: Run tests (CI config)
-        run: npx vitest --config vitest.ci.config.js --run
-        env:
-          CI: true
+			- name: Build
+				run: npm run build
 
-      - name: Build
-        run: npm run build
+			- name: Run tests (coverage)
+				run: npm run test:coverage
+
+			- name: Upload coverage HTML report
+				if: always()
+				uses: actions/upload-artifact@v4
+				with:
+					name: coverage-report
+					path: coverage/lcov-report
+
+			- name: Upload raw coverage files
+				if: always()
+				uses: actions/upload-artifact@v4
+				with:
+					name: coverage-files
+					path: coverage
+
