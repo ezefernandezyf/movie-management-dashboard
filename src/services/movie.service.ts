@@ -1,66 +1,83 @@
-import { API_ENDPOINTS, get, post, put, del } from './';
-import type { Movie, CreateMovieDto, UpdateMovieDto, MovieQueryParams } from '../models/';
-import { mapToServerParams } from '../utils';
+import { supabase } from '../lib/supabase';
+import type { MovieDbRow, CreateMovieDto, UpdateMovieDto, MovieQueryParams, Movie } from '../models';
 
-const isObject = (v: unknown): v is Record<string, unknown> => typeof v === 'object' && v !== null;
+export function mapDbRowToMovie(row: MovieDbRow): Movie {
+  return {
+    id: row.id,
+    title: row.title,
+    description: row.description ?? '',
+    poster_path: row.poster_path ?? '',
+    genre: row.genre,
+    rating:
+      typeof row.rating === 'number' ? row.rating : row.rating ? Number(row.rating) : undefined,
+    year: row.year,
+    status: row.status ?? 'active',
+    owner_id: row.owner_id ?? undefined,
+    created_at: row.created_at,
+    updated_at: row.updated_at,
+  } as Movie;
+}
 
-const hasDataArray = (v: unknown): v is { data: unknown } =>
-  isObject(v) && 'data' in v && Array.isArray((v as Record<string, unknown>).data);
+export const getMovies = async (params?: MovieQueryParams) => {
+  let query = supabase.from('movies').select('*');
 
-
-export const getMovies = async (uiParams?: MovieQueryParams, signal?: AbortSignal) => {
-  const serverParams = mapToServerParams(uiParams);
-
-  const res = await get<unknown>(API_ENDPOINTS.MOVIES, { params: serverParams, signal });
-
-  if (Array.isArray(res)) {
-    return res as Movie[];
+  if (params?.q) {
+    query = query.ilike('title', `%${params.q}%`);
+  }
+  if (params?.genre) {
+    query = query.eq('genre', params.genre);
+  }
+  if (params?.status) {
+    query = query.eq('status', params.status);
   }
 
-  if (hasDataArray(res)) {
-    const data = (res as Record<string, unknown>).data as unknown;
-    if (Array.isArray(data)) {
-      if (data.length > 0) {
-        return data as Movie[];
-      }
+  query = query.order('created_at', { ascending: false });
 
-      const hadQueryParams = serverParams && Object.keys(serverParams).length > 0;
-      if (hadQueryParams) {
-        const fallback = await get<unknown>(API_ENDPOINTS.MOVIES, { signal });
-        if (Array.isArray(fallback)) {
-          return fallback as Movie[];
-        }
-        if (hasDataArray(fallback)) {
-          return (fallback as Record<string, unknown>).data as Movie[];
-        }
-      }
-
-      return [] as Movie[];
-    }
-  }
-
-  throw new Error('getMovies: unexpected response shape from server');
+  const { data, error } = await query;
+  if (error) throw error;
+  return (data ?? []).map(mapDbRowToMovie);
 };
 
-export const getMovieById = (id: number | string, signal?: AbortSignal) => {
-  if (id == null) {
-    throw new Error("getMovieById: 'id' is required");
-  }
-  return get<Movie>(`${API_ENDPOINTS.MOVIES}/${id}`, { signal });
+export const getMovieById = async (id: number | string) => {
+  if (!id) throw new Error("getMovieById: 'id' is required");
+  const { data, error } = await supabase.from('movies').select('*').eq('id', id).single();
+  if (error) throw error;
+  return mapDbRowToMovie(data);
 };
 
-export const createMovie = (payload: CreateMovieDto) => post<Movie>(API_ENDPOINTS.MOVIES, payload);
-
-export const updateMovie = (id: number | string, payload: UpdateMovieDto) => {
-  if (id === undefined || id === null) {
-    throw new Error("updateMovie: 'id' is required");
-  }
-  return put<Movie>(`${API_ENDPOINTS.MOVIES}/${id}`, payload);
+export const createMovie = async (payload: CreateMovieDto, ownerId: string) => {
+  const dbRow = { ...payload, owner_id: ownerId };
+  const { data, error } = await supabase.from('movies').insert([dbRow]).select().single();
+  if (error) throw error;
+  return mapDbRowToMovie(data);
 };
 
-export const deleteMovie = (id: number | string) => {
-  if (id === undefined || id === null) {
-    throw new Error("deleteMovie: 'id' is required");
-  }
-  return del<void>(`${API_ENDPOINTS.MOVIES}/${id}`);
+export const updateMovie = async (
+  id: number | string,
+  payload: UpdateMovieDto,
+  ownerId: string,
+) => {
+  if (!id) throw new Error("updateMovie: 'id' is required");
+  const { data, error } = await supabase
+    .from('movies')
+    .update({ ...payload })
+    .eq('id', id)
+    .eq('owner_id', ownerId)
+    .select()
+    .single();
+  if (error) throw error;
+  return mapDbRowToMovie(data);
+};
+
+export const deleteMovie = async (id: number | string, ownerId: string) => {
+  if (!id) throw new Error("deleteMovie: 'id' is required");
+  const { data, error } = await supabase
+    .from('movies')
+    .delete()
+    .eq('id', id)
+    .eq('owner_id', ownerId)
+    .select()
+    .single();
+  if (error) throw error;
+  return data;
 };

@@ -1,5 +1,4 @@
 import { render, screen, waitFor } from '@testing-library/react';
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { createQueryClient } from '../../queries/queryClient';
 import * as movieService from '../../services/movie.service';
@@ -14,16 +13,11 @@ const TestComp = ({ id }: { id?: number | string }) => {
 };
 
 describe('useMovie hook', () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
-
   afterEach(() => {
     vi.restoreAllMocks();
-    vi.clearAllMocks();
   });
 
-  it('muestra el título cuando getMovieById resuelve', async () => {
+  it('shows title when getMovieById resolves', async () => {
     const sample: Movie = {
       id: 1,
       title: 'The Shawshank Redemption',
@@ -48,10 +42,10 @@ describe('useMovie hook', () => {
       expect(screen.getByText(/The Shawshank Redemption/)).toBeTruthy();
     });
 
-    expect(spy).toHaveBeenCalledWith(1, expect.anything());
+    expect(spy).toHaveBeenCalledWith(1);
   });
 
-  it('no ejecuta la query si id es undefined (enabled false)', async () => {
+  it('does not execute query if id is undefined', async () => {
     const spy = vi.spyOn(movieService, 'getMovieById');
 
     const qc = createQueryClient();

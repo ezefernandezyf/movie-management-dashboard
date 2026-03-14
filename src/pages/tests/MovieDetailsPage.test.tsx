@@ -12,7 +12,7 @@ const sample: Movie = {
     id: 1,
     title: 'MovieTest',
     description: 'About a',
-    posterPath: '',
+    poster_path: '',
     genre: 'Drama',
     rating: 8.8,
     year: 1999,

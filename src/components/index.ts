@@ -4,4 +4,5 @@ export * from './MovieList/MovieList';
 export * from './ConfirmDialog/ConfirmDialog';
 export * from './Forms/MovieForm';
 export * from './Forms/movie.schema';
+export * from './RequireAuth/RequireAuth';
 

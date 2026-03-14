@@ -12,7 +12,7 @@ describe('EditMoviePage', () => {
             id: 1,
             title: 'Old Title',
             description: 'Old desc',
-            posterPath: '',
+            poster_path: '',
             genre: 'Drama',
             rating: 6.5,
             year: 2020,

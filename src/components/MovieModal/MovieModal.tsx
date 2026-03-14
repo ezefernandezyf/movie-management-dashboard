@@ -39,7 +39,7 @@ export function MovieModal({ open, onClose, movie, onSaved }: Props): React.JSX.
         ? {
             title: movie.title,
             description: movie.description ?? undefined,
-            posterPath: movie.posterPath ?? undefined,
+            poster_path: movie.poster_path ?? undefined,
             genre: movie.genre ?? undefined,
             rating: typeof movie.rating === 'number' ? movie.rating : undefined,
             year: movie.year ?? undefined,

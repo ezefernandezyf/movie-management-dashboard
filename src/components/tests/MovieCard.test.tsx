@@ -8,7 +8,7 @@ const sample: Movie = {
     id: 1,
     title: 'Mi Película',
     description: 'Descripción',
-    posterPath: undefined,
+    poster_path: undefined,
     genre: 'Drama',
     rating: 7.5,
     year: 2023, 

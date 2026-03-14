@@ -15,7 +15,7 @@ function isValidUrl(value: string): boolean {
 const formSchema = z.object({
     title: z.string().min(1, 'El título es obligatorio'),
     description: z.string().optional(),
-    posterPath: z
+    poster_path: z
         .string()
         .optional()
         .refine((v) => !v || isValidUrl(v), 'Debe ser una URL válida'),
@@ -51,7 +51,7 @@ export function MovieForm({
     const initialValues: FormValues = {
         title: defaultValues?.title ?? '',
         description: defaultValues?.description ?? '',
-        posterPath: defaultValues?.posterPath ?? '',
+        poster_path: defaultValues?.poster_path ?? '',
         genre: defaultValues?.genre ?? '',
         rating: defaultValues?.rating !== undefined ? String(defaultValues.rating) : '',
         year: defaultValues?.year !== undefined ? String(defaultValues.year) : '',
@@ -72,7 +72,7 @@ export function MovieForm({
         const payload: CreateMovieDto = {
             title: values.title,
             description: values.description ? values.description : undefined,
-            posterPath: values.posterPath ? values.posterPath : undefined,
+            poster_path: values.poster_path ? values.poster_path : undefined,
             genre: values.genre && values.genre.trim().length > 0 ? values.genre.trim() : undefined,
             rating: values.rating && values.rating.toString().trim().length > 0 ? Number(values.rating) : undefined,
             year: values.year && values.year.toString().trim().length > 0 ? Number(values.year) : undefined,
@@ -111,16 +111,16 @@ export function MovieForm({
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                    <label htmlFor="posterPath" className="block text-sm font-medium text-gray-200">
+                    <label htmlFor="poster_path" className="block text-sm font-medium text-gray-200">
                         Poster URL
                     </label>
                     <input
-                        id="posterPath"
-                        {...register('posterPath')}
+                        id="poster_path"
+                        {...register('poster_path')}
                         placeholder="https://..."
                         className="mt-1 block w-full px-3 py-2 rounded-md bg-gray-800 border border-gray-700 text-gray-100 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 outline-none"
                     />
-                    {errors.posterPath && <p className="mt-1 text-xs text-red-400">{errors.posterPath.message}</p>}
+                    {errors.poster_path && <p className="mt-1 text-xs text-red-400">{errors.poster_path.message}</p>}
                 </div>
 
                 <div>

@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../hooks/useAuth';
 
 export function Header(): React.JSX.Element {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const drawerRef = useRef<HTMLDivElement | null>(null);
   const navigate = useNavigate();
+  const { user, loading, signOut } = useAuth();
 
   const toggle = () => setOpen((v) => !v);
   const close = () => setOpen(false);
@@ -55,6 +57,15 @@ export function Header(): React.JSX.Element {
       navigate('/movies');
     }
     close();
+  };
+
+  const handleLogout = async () => {
+    try {
+      await signOut();
+      navigate('/login');
+    } catch (err) {
+      console.error('Logout error', err);
+    }
   };
 
   return (
@@ -113,6 +124,40 @@ export function Header(): React.JSX.Element {
                 Buscar
               </button>
             </form>
+
+            <div className="hidden md:flex items-center gap-3">
+              {loading ? (
+                <div className="text-gray-400 text-sm">Comprobando...</div>
+              ) : user ? (
+                <div className="flex items-center gap-2">
+                  <span className="text-gray-200 text-sm truncate max-w-40">{user.email}</span>           
+                  <button
+                    type="button"
+                    onClick={handleLogout}
+                    className="px-2 py-1 bg-red-600 rounded text-white hover:bg-red-500"
+                  >
+                    Salir
+                  </button>
+                </div>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => navigate('/login')}
+                    className="px-3 py-1 bg-transparent text-gray-200 rounded hover:bg-gray-800"
+                  >
+                    Login
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => navigate('/signup')}
+                    className="px-3 py-1 bg-indigo-600 text-white rounded hover:bg-indigo-500"
+                  >
+                    Signup
+                  </button>
+                </div>
+              )}
+            </div>
 
             <button
               type="button"
@@ -192,7 +237,7 @@ export function Header(): React.JSX.Element {
           <NavLink to="/movies" onClick={onLinkClick} className={navLinkClass}>
             Catálogo
           </NavLink>
-          <NavLink to="/nuevo" onClick={onLinkClick} className={navLinkClass}>
+          <NavLink to="/movies/new" onClick={onLinkClick} className={navLinkClass}>
             Nuevo
           </NavLink>
 
@@ -222,6 +267,49 @@ export function Header(): React.JSX.Element {
               Buscar
             </button>
           </form>
+
+          <div className="mt-4 border-t border-gray-800 pt-4 flex flex-col gap-2">
+            {loading ? (
+              <div className="text-gray-400">Comprobando...</div>
+            ) : user ? (
+              <>
+                <div className="text-gray-200 text-sm truncate">{user.email}</div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    void handleLogout();
+                    close();
+                  }}
+                  className="px-3 py-2 bg-red-600 rounded text-white"
+                >
+                  Salir
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  type="button"
+                  onClick={() => {
+                    navigate('/login');
+                    close();
+                  }}
+                  className="px-3 py-2 bg-transparent text-gray-200 rounded hover:bg-gray-800"
+                >
+                  Login
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    navigate('/signup');
+                    close();
+                  }}
+                  className="px-3 py-2 bg-indigo-600 text-white rounded"
+                >
+                  Signup
+                </button>
+              </>
+            )}
+          </div>
         </nav>
       </aside>
     </header>

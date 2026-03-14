@@ -31,7 +31,7 @@ describe('useMovies hook', () => {
     vi.clearAllMocks();
   });
 
-  it('fetches and renders movies and passes params and signal', async () => {
+  it('fetches and renders movies with params', async () => {
     const movies: Movie[] = [
       {
         id: 1,
@@ -70,7 +70,6 @@ describe('useMovies hook', () => {
     expect(spy).toHaveBeenCalledTimes(1);
     const callArgs = spy.mock.calls[0];
     expect(callArgs[0]).toEqual({ page: 1, limit: 2 });
-    expect(callArgs[1]).toBeDefined();
   });
 
   it('renders empty list when service returns empty array', async () => {

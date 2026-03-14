@@ -103,8 +103,8 @@ export const HomePage = (): React.JSX.Element => {
                                 <div key={String(m.id)} className="p-3 rounded-lg bg-gray-900 border border-gray-800">
                                     <div className="flex items-start gap-3">
                                         <div className="w-20 h-28 rounded-md overflow-hidden bg-gray-800 shrink-0">
-                                            {m.posterPath ? (
-                                                <img src={String(m.posterPath)} alt={`${m.title} poster`} className="w-full h-full object-cover" />
+                                            {m.poster_path ? (
+                                                <img src={String(m.poster_path)} alt={`${m.title} poster`} className="w-full h-full object-cover" />
                                             ) : (
                                                 <div className="w-full h-full flex items-center justify-center text-gray-500">No image</div>
                                             )}
@@ -135,8 +135,8 @@ export const HomePage = (): React.JSX.Element => {
                                 <div key={String(m.id)} className="p-3 rounded-lg bg-gray-900 border border-gray-800">
                                     <div className="flex items-center gap-3">
                                         <div className="w-16 h-20 rounded-md overflow-hidden bg-gray-800 shrink-0">
-                                            {m.posterPath ? (
-                                                <img src={String(m.posterPath)} alt={`${m.title} poster`} className="w-full h-full object-cover" />
+                                            {m.poster_path ? (
+                                                <img src={String(m.poster_path)} alt={`${m.title} poster`} className="w-full h-full object-cover" />
                                             ) : (
                                                 <div className="w-full h-full flex items-center justify-center text-gray-500">No image</div>
                                             )}
