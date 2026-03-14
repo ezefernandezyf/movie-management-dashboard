@@ -9,9 +9,9 @@ export const useMovie = (id?: number | string, options?: UseQueryOptions<Movie, 
 
   const opts: UseQueryOptions<Movie, Error> = {
     queryKey,
-    queryFn: async ({ signal }) => {
+    queryFn: () => {
       if (!enabled) throw new Error("useMovie: 'id' is required");
-      return getMovieById(id as number | string, signal);
+      return getMovieById(id as number | string);
     },
     enabled,
     staleTime: 30_000,

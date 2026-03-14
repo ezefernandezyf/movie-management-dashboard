@@ -8,7 +8,7 @@ export const useMovies = (params?: MovieQueryParams, options?: UseQueryOptions<M
 
   const opts: UseQueryOptions<Movie[], Error> = {
     queryKey,
-    queryFn: ({ signal }) => getMovies(params, signal),
+    queryFn: () => getMovies(params),
     staleTime: 30_000,
     ...options,
   };
