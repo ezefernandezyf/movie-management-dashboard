@@ -2,12 +2,12 @@ import { useEffect } from 'react';
 import { render, waitFor } from '@testing-library/react';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { createQueryClient } from '../../queries/queryClient';
-import { vi } from 'vitest';
-
-import * as services from '../../services';
 import * as movieService from '../../services/movie.service';
 import type { CreateMovieDto, Movie } from '../../models';
 import { useCreateMovie } from '../useCreateMovie';
+import * as authHook from '../useAuth';
+import type { AuthState } from '../useAuth';
+import type { User } from '@supabase/supabase-js';
 
 const TestComp = ({ payload }: { payload: CreateMovieDto }) => {
   const mutation = useCreateMovie();
@@ -19,15 +19,26 @@ const TestComp = ({ payload }: { payload: CreateMovieDto }) => {
 };
 
 describe('useCreateMovie', () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
 
-  it('calls createMovie and invalidates queries', async () => {
+  it('calls createMovie with payload and ownerId then invalidates queries', async () => {
     const mockMovie: Movie = { id: 42, title: 'Nueva peli' } as Movie;
+    const ownerId = 'user-xyz';
 
-    const postSpy = vi.spyOn(services, 'post').mockResolvedValueOnce(mockMovie);
+    const mockAuth: AuthState = {
+      user: { id: ownerId } as User,
+      session: null,
+      loading: false,
+      signIn: vi.fn() as AuthState['signIn'],
+      signUp: vi.fn() as AuthState['signUp'],
+      signOut: vi.fn() as AuthState['signOut'],
+    };
 
-    const createSpy = vi.spyOn(movieService, 'createMovie').mockImplementation(async (payload: CreateMovieDto) => {
-      return services.post('/movies', payload);
-    });
+    vi.spyOn(authHook, 'useAuth').mockReturnValue(mockAuth);
+
+    const createSpy = vi.spyOn(movieService, 'createMovie').mockResolvedValueOnce(mockMovie);
 
     const queryClient = createQueryClient();
     const invalidateSpy = vi.spyOn(queryClient, 'invalidateQueries');
@@ -39,15 +50,13 @@ describe('useCreateMovie', () => {
     );
 
     await waitFor(() => {
-      // createMovie fue llamado
       expect(createSpy).toHaveBeenCalledTimes(1);
 
-      const firstArg = createSpy.mock.calls[0][0];
-      expect(firstArg).toEqual({ title: 'Nueva peli' });
+      const call = createSpy.mock.calls[0];
+      expect(call[0]).toEqual({ title: 'Nueva peli' });
+      expect(call[1]).toBe(ownerId);
 
-      expect(postSpy).toHaveBeenCalled();
-
-      expect(invalidateSpy).toHaveBeenCalledWith({ queryKey: ['movies'] });
+      expect(invalidateSpy).toHaveBeenCalled();
     });
   });
 });

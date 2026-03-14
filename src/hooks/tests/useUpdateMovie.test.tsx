@@ -6,6 +6,10 @@ import * as movieService from '../../services/movie.service';
 import type { UpdateMovieDto, Movie } from '../../models';
 import { movieKeys } from '../../queries/movie.keys';
 import { useUpdateMovie } from '../useUpdateMovie';
+import * as authHook from '../useAuth';
+import type { AuthState } from '../useAuth';
+import type { User } from '@supabase/supabase-js';
+import { vi } from 'vitest';
 
 type UpdateParams = { id: number; data: UpdateMovieDto };
 
@@ -18,9 +22,25 @@ const TestComp = ({ params }: { params: UpdateParams }) => {
 };
 
 describe('useUpdateMovie', () => {
-  it('calls updateMovie with id and payload and invalidates queries', async () => {
-    const updated: Movie = { id: 5, title: 'Updated title' };
-    const spy = vi.spyOn(movieService, 'updateMovie').mockResolvedValueOnce(updated as Movie);
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it('calls updateMovie with id, payload and ownerId, invalidates queries', async () => {
+    const updated: Movie = { id: 5, title: 'Updated title' } as Movie;
+    const ownerId = 'user-123';
+
+    const mockAuth: AuthState = {
+      user: { id: ownerId } as User,
+      session: null,
+      loading: false,
+      signIn: vi.fn() as AuthState['signIn'],
+      signUp: vi.fn() as AuthState['signUp'],
+      signOut: vi.fn() as AuthState['signOut'],
+    };
+    vi.spyOn(authHook, 'useAuth').mockReturnValue(mockAuth);
+
+    const spy = vi.spyOn(movieService, 'updateMovie').mockResolvedValueOnce(updated);
 
     const qc = createQueryClient();
     const invalidateSpy = vi.spyOn(qc, 'invalidateQueries');
@@ -36,6 +56,7 @@ describe('useUpdateMovie', () => {
       const firstCall = spy.mock.calls[0];
       expect(firstCall[0]).toBe(5);
       expect(firstCall[1]).toEqual({ title: 'Updated title 2' });
+      expect(firstCall[2]).toBe(ownerId);
 
       expect(invalidateSpy).toHaveBeenCalled();
       expect(invalidateSpy).toHaveBeenCalledWith({ queryKey: movieKeys.detail(5) });
