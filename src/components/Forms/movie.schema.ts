@@ -3,7 +3,7 @@ import { z } from 'zod';
 export const movieBaseSchema = z.object({
   title: z.string().min(1, 'El título es obligatorio'),
   description: z.string().optional(),
-  posterPath: z.url().optional(),
+  poster_path: z.url().optional(),
   genre: z.string().optional(),
   year: z.number().int().optional(),
   rating: z.number().min(0, 'Rating mínimo 0').max(10, 'Rating máximo 10').optional(),

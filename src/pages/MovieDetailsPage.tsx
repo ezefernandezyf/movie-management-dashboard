@@ -97,8 +97,8 @@ export const MovieDetailsPage = (): React.JSX.Element => {
                         <div>
                             <div className="rounded-xl border border-gray-800 bg-gray-900 p-4">
                                 <div className="w-full rounded-md overflow-hidden bg-gray-800 mb-4 h-105">
-                                    {movie.posterPath ? (
-                                        <img src={String(movie.posterPath)} alt={`${movie.title} poster`} className="w-full h-full object-cover" />
+                                    {movie.poster_path ? (
+                                        <img src={String(movie.poster_path)} alt={`${movie.title} poster`} className="w-full h-full object-cover" />
                                     ) : (
                                         <div className="w-full h-full flex items-center justify-center text-gray-500">No image</div>
                                     )}

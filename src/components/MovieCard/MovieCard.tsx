@@ -24,9 +24,9 @@ export const MovieCard = ({ movie, onEdit, onDelete, isDeleting }: Props): React
     return (
         <article className="h-full flex flex-col rounded-xl border border-gray-800 bg-gray-900 p-4 shadow-sm transition-transform hover:-translate-y-0.5">
             <div className="w-full rounded-md overflow-hidden bg-gray-800 flex items-center justify-center h-64">
-                {movie.posterPath ? (
+                {movie.poster_path ? (
                     <img
-                        src={String(movie.posterPath)}
+                        src={String(movie.poster_path)}
                         alt={`${movie.title} poster`}
                         className="w-full h-full object-cover"
                         loading="lazy"
