@@ -1,12 +1,12 @@
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 
-interface RequireAuthProps {
-    children: React.ReactElement;
-}
-
-export function RequireAuth({ children }: RequireAuthProps): React.ReactElement {
+export function RequireAuth({ children }: { children: React.ReactElement }) {
     const { user } = useAuth();
-    if (!user) return <Navigate to="/login" replace />;
+    const location = useLocation();
+
+    if (user === undefined) return <div>Loading...</div>;
+
+    if (!user) return <Navigate to="/login" state={{ from: location }} replace />;
     return children;
 }

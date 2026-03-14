@@ -1,21 +1,23 @@
-import { useAuth } from "../../hooks/useAuth";
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../hooks/useAuth';
 
-export function UserMenu(): React.JSX.Element | null {
-    const { user, signOut, loading } = useAuth();
+export const UserMenu: React.FC = () => {
+    const { user, signOut } = useAuth();
+    const navigate = useNavigate();
 
-    if (!user) return null;
+    if (!user) {
+        return (
+            <div>
+                <button className="btn" onClick={() => navigate('/login')}>Login</button>
+                <button className="btn" onClick={() => navigate('/signup')}>Signup</button>
+            </div>
+        );
+    }
 
     return (
-        <div className="flex items-center gap-2">
-            <span className="text-gray-200 text-sm">{user.email}</span>
-            <button
-                type="button"
-                className="px-2 py-1 bg-gray-800 rounded text-gray-100"
-                disabled={loading}
-                onClick={signOut}
-            >
-                Cerrar sesión
-            </button>
+        <div>
+            <span className="mr-2">{user.email}</span>
+            <button className="btn" onClick={signOut}>Logout</button>
         </div>
     );
-}
+};

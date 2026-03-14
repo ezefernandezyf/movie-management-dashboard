@@ -3,8 +3,8 @@ import { supabase } from '../lib/supabase';
 import type { User, Session } from '@supabase/supabase-js';
 
 export interface AuthState {
-  user: User | null;
-  session: Session | null;
+  user: User | null | undefined; // undefined = loading, null = no logueado
+  session: Session | null | undefined;
   loading: boolean;
   signIn(email: string, password: string): Promise<void>;
   signUp(email: string, password: string): Promise<void>;
@@ -12,8 +12,8 @@ export interface AuthState {
 }
 
 export function useAuth(): AuthState {
-  const [user, setUser] = useState<User | null>(null);
-  const [session, setSession] = useState<Session | null>(null);
+  const [user, setUser] = useState<User | null | undefined>(undefined);
+  const [session, setSession] = useState<Session | null | undefined>(undefined);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -26,6 +26,7 @@ export function useAuth(): AuthState {
       setSession(newSession ?? null);
       setUser(newSession?.user ?? null);
     });
+
     return () => {
       subscription?.subscription?.unsubscribe();
     };
@@ -33,33 +34,48 @@ export function useAuth(): AuthState {
 
   const signIn = async (email: string, password: string) => {
     setLoading(true);
-    const { error, data } = await supabase.auth.signInWithPassword({
+    const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
-    setLoading(false);
-    if (error) throw error;
-    setUser(data.user ?? null);
+    if (error) {
+      setLoading(false);
+      throw error;
+    }
+    supabase.auth.getSession().then(({ data }) => {
+      setSession(data.session ?? null);
+      setUser(data.session?.user ?? null);
+      setLoading(false);
+    });
   };
 
   const signUp = async (email: string, password: string) => {
     setLoading(true);
-    const { error, data } = await supabase.auth.signUp({
+    const { error } = await supabase.auth.signUp({
       email,
       password,
     });
-    setLoading(false);
-    if (error) throw error;
-    setUser(data.user ?? null);
+    if (error) {
+      setLoading(false);
+      throw error;
+    }
+    supabase.auth.getSession().then(({ data }) => {
+      setSession(data.session ?? null);
+      setUser(data.session?.user ?? null);
+      setLoading(false);
+    });
   };
 
   const signOut = async () => {
     setLoading(true);
     const { error } = await supabase.auth.signOut();
-    setLoading(false);
-    if (error) throw error;
+    if (error) {
+      setLoading(false);
+      throw error;
+    }
     setUser(null);
     setSession(null);
+    setLoading(false);
   };
 
   return { user, session, loading, signIn, signUp, signOut };
