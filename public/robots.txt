@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://moviesdashboard.vercel.app/sitemap.xml
