@@ -84,7 +84,7 @@ export function MoviesPage(): React.JSX.Element {
         },
     });
 
-    const handleSearchSubmit = (e?: React.FormEvent) => {
+    const handleSearchSubmit = (e?: React.SubmitEvent<HTMLFormElement>) => {
         e?.preventDefault();
         const q = searchInput.trim();
         const params = new URLSearchParams();
