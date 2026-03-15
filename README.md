@@ -86,6 +86,8 @@ Testing
 
   ```
 
+  ```
+
 Arquitectura y convenciones
 
 - Rutas principales y archivos:
