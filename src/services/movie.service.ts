@@ -1,5 +1,11 @@
 import { supabase } from '../lib/supabase';
-import type { MovieDbRow, CreateMovieDto, UpdateMovieDto, MovieQueryParams, Movie } from '../models';
+import type {
+  MovieDbRow,
+  CreateMovieDto,
+  UpdateMovieDto,
+  MovieQueryParams,
+  Movie,
+} from '../models';
 
 export function mapDbRowToMovie(row: MovieDbRow): Movie {
   return {
