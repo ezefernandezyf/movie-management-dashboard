@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 type Props = {
   value?: string;
   onChange?: (value: string) => void;
-  onSearch?: (value: string) => void; 
+  onSearch?: (value: string) => void;
   placeholder?: string;
   debounceMs?: number;
   ariaLabel?: string;
@@ -67,4 +67,4 @@ export const SearchBar = ({
       />
     </div>
   );
-}
+};

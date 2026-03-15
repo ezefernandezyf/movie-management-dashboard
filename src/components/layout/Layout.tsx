@@ -2,7 +2,6 @@ import { Outlet } from 'react-router-dom';
 import { Header } from './Header';
 import { Footer } from './Footer';
 
-
 export function Layout(): React.JSX.Element {
   return (
     <div className="min-h-screen flex flex-col bg-gray-900 text-gray-100">
@@ -16,7 +15,11 @@ export function Layout(): React.JSX.Element {
 
       <Footer />
 
-      <div id="toast-root" aria-hidden className="fixed bottom-6 right-6 z-50 pointer-events-none" />
+      <div
+        id="toast-root"
+        aria-hidden
+        className="fixed bottom-6 right-6 z-50 pointer-events-none"
+      />
     </div>
   );
 }

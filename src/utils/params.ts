@@ -1,6 +1,8 @@
-import type { MovieQueryParams } from "../models";
+import type { MovieQueryParams } from '../models';
 
-export const mapToServerParams = (p?: MovieQueryParams): Record<string, string | number> | undefined => {
+export const mapToServerParams = (
+  p?: MovieQueryParams,
+): Record<string, string | number> | undefined => {
   if (!p) return undefined;
   const out: Record<string, string | number> = {};
   if (p.page !== undefined) out._page = p.page;

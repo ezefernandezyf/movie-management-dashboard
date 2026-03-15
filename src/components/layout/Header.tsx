@@ -130,7 +130,7 @@ export function Header(): React.JSX.Element {
                 <div className="text-gray-400 text-sm">Comprobando...</div>
               ) : user ? (
                 <div className="flex items-center gap-2">
-                  <span className="text-gray-200 text-sm truncate max-w-40">{user.email}</span>           
+                  <span className="text-gray-200 text-sm truncate max-w-40">{user.email}</span>
                   <button
                     type="button"
                     onClick={handleLogout}
@@ -193,8 +193,9 @@ export function Header(): React.JSX.Element {
 
       <div
         aria-hidden={!open}
-        className={`fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-200 ${open ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-          }`}
+        className={`fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-200 ${
+          open ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        }`}
       />
 
       <aside
@@ -203,8 +204,9 @@ export function Header(): React.JSX.Element {
         tabIndex={-1}
         role="dialog"
         aria-modal="true"
-        className={`fixed right-0 top-0 h-full w-[85vw] max-w-xs bg-gray-950 shadow-lg border-l border-gray-800 transition-transform duration-200 focus:outline-none ${open ? 'translate-x-0' : 'translate-x-full'
-          }`}
+        className={`fixed right-0 top-0 h-full w-[85vw] max-w-xs bg-gray-950 shadow-lg border-l border-gray-800 transition-transform duration-200 focus:outline-none ${
+          open ? 'translate-x-0' : 'translate-x-full'
+        }`}
       >
         <div className="h-16 flex items-center justify-between px-4">
           <Link to="/" className="inline-flex items-center gap-2" onClick={onLinkClick}>
